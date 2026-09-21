@@ -176,6 +176,7 @@ jobs:
 ## Features
 
 - **Self-contained HTML viewer** - Single file with embedded CSS/JS, no dependencies
+- **Inline diagrams** - Mermaid, draw.io and Excalidraw blocks render as pan- and zoomable canvases
 - **Faceted search** - Filter by status, category, tags, author, project, and technologies
 - **Relationship graphs** - Interactive visualization of ADR relationships
 - **Multiple themes** - Light, dark, and system-preference modes
@@ -263,8 +264,12 @@ Options:
   -p, --pattern <GLOB>  File pattern [default: **/*.md]
   -t, --title <TITLE>   Page title [default: "Architecture Decision Records"]
       --theme <THEME>   Theme: light, dark, auto [default: auto]
+      --diagrams <LIST> Diagram renderers to embed [default: auto]
   -v, --verbose         Enable verbose output
 ```
+
+`--diagrams` accepts `auto`, `all`, `none`, or a comma-separated list of
+`mermaid`, `drawio`, `excalidraw`. See [Diagrams](#diagrams).
 
 ### Validate Options
 
@@ -322,6 +327,52 @@ related:
 | `superseded` | Replaced by another ADR |
 
 Unknown status values are handled gracefully with a warning.
+
+## Diagrams
+
+Fenced code blocks tagged `mermaid`, `drawio` or `excalidraw` become interactive
+canvases in the generated viewer: scroll to zoom, drag to pan, double-click to
+fit, and there is a fullscreen button. The diagram source stays in the markdown,
+so it is reviewed like any other change and never drifts from an exported image.
+
+````markdown
+```mermaid
+flowchart LR
+    A[Client] --> B[Service]
+```
+````
+
+For the other two formats, paste the file's contents into the fence:
+
+| Fence | Contents |
+| --- | --- |
+| `drawio` | A `.drawio` file's `mxfile` XML, uncompressed. In the editor: *Extras → Edit Diagram*, or save with *File → Properties → Compressed* off. |
+| `excalidraw` | An `.excalidraw` file, which is plain scene JSON. |
+
+`examples/diagrams/` contains a worked example of all three.
+
+### Bundle size
+
+Each renderer is a multi-megabyte JavaScript bundle embedded in the output, so
+`--diagrams auto` (the default) embeds only the ones the ADRs actually use:
+
+| Renderers used | Viewer size |
+| --- | --- |
+| none | ~90 KB |
+| mermaid | ~5.5 MB |
+| all three | ~10 MB |
+
+Use `--diagrams none` to keep diagram blocks as plain code.
+
+### Limitations
+
+- Excalidraw text renders in a system sans-serif; its handwriting fonts are
+  stripped during vendoring to save 17 MB. Re-run
+  `KEEP_FONTS=1 scripts/vendor-diagrams.sh` to restore them.
+- draw.io shapes from libraries that load stencils on demand (AWS, Azure, Cisco)
+  are unavailable offline and fall back to plain rectangles.
+- Diagram sources are trusted content, on the same footing as the rest of an
+  ADR body.
 
 ## Library Usage
 

@@ -54,6 +54,7 @@ let result = use_case.execute(&options)?;
 
 **Domain Types** (`domain/`):
 - `Adr` - Parsed ADR with frontmatter and content
+- `DiagramKind` / `DiagramSupport` - Diagram formats found in ADR bodies and the policy for embedding their renderers
 - `Frontmatter` - YAML metadata (title, status, tags, etc.)
 - `Status` - Enum: Proposed, Accepted, Deprecated, Superseded
 - `Facets` - Search facets extracted from ADRs
@@ -73,6 +74,17 @@ markdown file → frontmatter extraction → YAML parse → Adr struct
 Vec<Adr> → Facets + Graph → Askama template → HTML
            (domain/)         (infrastructure/renderer/)
 ```
+
+### Diagram Pipeline
+
+Fenced `mermaid` / `drawio` / `excalidraw` blocks reach the browser as plain
+`<pre><code class="language-*">` — the markdown renderer needs no special case.
+`templates/diagrams.js` upgrades them into pan/zoom SVG canvases once the detail
+panel is visible, using the renderer bundles vendored in `templates/vendor/`.
+
+`DiagramSupport::resolve` decides which of those multi-megabyte bundles to
+inline; the default only embeds what the ADRs actually use. Refresh the bundles
+with `scripts/vendor-diagrams.sh` — never edit them by hand.
 
 ## Code Constraints
 

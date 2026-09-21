@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **[Diagrams]**: Fenced `mermaid`, `drawio` and `excalidraw` blocks render as
+  interactive canvases in the generated viewer, with wheel zoom, drag panning,
+  fit-to-view and fullscreen
+  - `--diagrams auto|all|none|<list>` selects which renderers to embed; `auto`
+    detects what the ADRs use, so diagram-free viewers are unchanged in size
+  - Renderer bundles are vendored under `templates/vendor/` and refreshed by
+    `scripts/vendor-diagrams.sh`, so builds never touch the network
+  - Everything stays offline: a viewer with all three renderers makes zero
+    network requests from `file://`
+
 - **[Docs]**: Add comprehensive dependencies reference documentation
   - Complete catalog of all external dependencies with purposes
   - Version constraints and update policy
