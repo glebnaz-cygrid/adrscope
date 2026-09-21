@@ -4,6 +4,7 @@
 //! independent of external concerns like I/O, parsing, or rendering.
 
 mod adr;
+mod diagram;
 mod facets;
 mod frontmatter;
 mod graph;
@@ -12,6 +13,7 @@ mod status;
 mod validation;
 
 pub use adr::{Adr, AdrId};
+pub use diagram::{DiagramKind, DiagramSupport};
 pub use facets::{Facet, FacetValue, Facets};
 pub use frontmatter::Frontmatter;
 pub use graph::{Edge, EdgeType, Graph, Node};

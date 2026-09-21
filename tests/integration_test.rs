@@ -15,7 +15,7 @@ use adrscope::Error;
 use adrscope::application::{GenerateOptions, GenerateUseCase, ValidateOptions, ValidateUseCase};
 use adrscope::cli::run;
 use adrscope::cli::{
-    Cli, Commands, FormatArg, GenerateArgs, StatsArgs, ThemeArg, ValidateArgs, WikiArgs,
+    Cli, Commands, DiagramArg, FormatArg, GenerateArgs, StatsArgs, ThemeArg, ValidateArgs, WikiArgs,
 };
 use adrscope::infrastructure::fs::FileSystem;
 use adrscope::infrastructure::fs::test_support::InMemoryFileSystem;
@@ -261,6 +261,7 @@ fn test_cli_generate_handler() {
             title: "Test ADRs".to_string(),
             theme: ThemeArg::Auto,
             pattern: "**/*.md".to_string(),
+            diagrams: vec![DiagramArg::Auto],
         }),
     };
 
@@ -296,6 +297,7 @@ fn test_cli_generate_handler_verbose() {
             title: "Test ADRs".to_string(),
             theme: ThemeArg::Light,
             pattern: "**/*.md".to_string(),
+            diagrams: vec![DiagramArg::Auto],
         }),
     };
 
@@ -551,6 +553,7 @@ fn test_cli_generate_no_adrs_error() {
             title: "Test ADRs".to_string(),
             theme: ThemeArg::Auto,
             pattern: "**/*.md".to_string(),
+            diagrams: vec![DiagramArg::Auto],
         }),
     };
 
@@ -598,6 +601,7 @@ status: accepted
             title: "Test ADRs".to_string(),
             theme: ThemeArg::Auto,
             pattern: "**/*.md".to_string(),
+            diagrams: vec![DiagramArg::Auto],
         }),
     };
 
@@ -966,6 +970,7 @@ fn test_functional_generate_html_content() {
             title: "Test Project ADRs".to_string(),
             theme: ThemeArg::Auto,
             pattern: "**/*.md".to_string(),
+            diagrams: vec![DiagramArg::Auto],
         }),
     };
 
@@ -1413,6 +1418,7 @@ fn test_functional_generate_with_relationships() {
             title: "Relationship Test".to_string(),
             theme: ThemeArg::Dark,
             pattern: "**/*.md".to_string(),
+            diagrams: vec![DiagramArg::Auto],
         }),
     };
 
@@ -1540,6 +1546,7 @@ This tests HTML escaping in < > & " characters.
             title: "Edge Cases Test".to_string(),
             theme: ThemeArg::Auto,
             pattern: "**/*.md".to_string(),
+            diagrams: vec![DiagramArg::Auto],
         }),
     };
 
@@ -1614,6 +1621,7 @@ fn test_functional_large_adr_collection() {
             title: "Large Collection Test".to_string(),
             theme: ThemeArg::Auto,
             pattern: "**/*.md".to_string(),
+            diagrams: vec![DiagramArg::Auto],
         }),
     };
 

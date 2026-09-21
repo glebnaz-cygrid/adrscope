@@ -6,6 +6,6 @@ mod args;
 mod handlers;
 
 pub use args::{
-    Cli, Commands, FormatArg, GenerateArgs, StatsArgs, ThemeArg, ValidateArgs, WikiArgs,
+    Cli, Commands, DiagramArg, FormatArg, GenerateArgs, StatsArgs, ThemeArg, ValidateArgs, WikiArgs,
 };
 pub use handlers::run;

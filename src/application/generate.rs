@@ -4,7 +4,7 @@
 
 use std::path::Path;
 
-use crate::domain::Adr;
+use crate::domain::{Adr, DiagramSupport};
 use crate::error::Result;
 use crate::infrastructure::{
     AdrParser, DefaultAdrParser, FileSystem, HtmlRenderer, RenderConfig, Theme,
@@ -23,6 +23,8 @@ pub struct GenerateOptions {
     pub theme: Theme,
     /// Glob pattern for matching ADR files.
     pub pattern: String,
+    /// Which diagram renderers to embed in the viewer.
+    pub diagrams: DiagramSupport,
 }
 
 impl Default for GenerateOptions {
@@ -33,6 +35,7 @@ impl Default for GenerateOptions {
             title: "Architecture Decision Records".to_string(),
             theme: Theme::Auto,
             pattern: "**/*.md".to_string(),
+            diagrams: DiagramSupport::default(),
         }
     }
 }
@@ -72,6 +75,13 @@ impl GenerateOptions {
     #[must_use]
     pub fn with_pattern(mut self, pattern: impl Into<String>) -> Self {
         self.pattern = pattern.into();
+        self
+    }
+
+    /// Sets which diagram renderers to embed in the viewer.
+    #[must_use]
+    pub fn with_diagrams(mut self, diagrams: DiagramSupport) -> Self {
+        self.diagrams = diagrams;
         self
     }
 }
@@ -131,7 +141,9 @@ impl<F: FileSystem> GenerateUseCase<F> {
         adrs.sort_by(|a, b| a.id().cmp(b.id()));
 
         // Generate HTML
-        let config = RenderConfig::new(&options.title).with_theme(options.theme);
+        let config = RenderConfig::new(&options.title)
+            .with_theme(options.theme)
+            .with_diagrams(options.diagrams.clone());
         let html = self
             .renderer
             .render(adrs.clone(), &options.input_dir, &config)?;

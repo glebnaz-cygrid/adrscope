@@ -33,7 +33,8 @@ fn handle_generate(args: GenerateArgs, verbose: bool) -> Result<i32> {
         .with_output(&args.output)
         .with_title(&args.title)
         .with_theme(args.theme.into())
-        .with_pattern(&args.pattern);
+        .with_pattern(&args.pattern)
+        .with_diagrams(args.diagrams.as_slice().into());
 
     if verbose {
         eprintln!("Scanning for ADRs in: {}", args.input);

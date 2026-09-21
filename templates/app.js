@@ -346,6 +346,14 @@
 
         html.dataset.theme = next;
         localStorage.setItem('adrscope-theme', next);
+
+        // Diagrams bake the theme into their SVG, so they need a fresh render.
+        if (window.ADRScopeDiagrams) {
+            window.ADRScopeDiagrams.reset();
+            if (state.selectedId) {
+                selectAdr(state.selectedId);
+            }
+        }
     }
 
     // =========================================================================
@@ -825,6 +833,10 @@
         // Show panel
         elements.detailPanel.classList.remove('hidden');
 
+        // Diagrams are laid out from measured geometry, so they can only be
+        // rendered once the panel is actually visible.
+        renderDiagrams();
+
         // Update navigation
         elements.prevAdr.disabled = state.selectedIndex <= 0;
         elements.nextAdr.disabled = state.selectedIndex >= state.filteredRecords.length - 1;
@@ -910,6 +922,11 @@
             relatedDiv.appendChild(relatedList);
             elements.detailContent.appendChild(relatedDiv);
         }
+    }
+
+    function renderDiagrams() {
+        if (!window.ADRScopeDiagrams) return;
+        window.ADRScopeDiagrams.enhance(elements.detailContent.querySelector('.detail-body'));
     }
 
     function closeDetail() {
