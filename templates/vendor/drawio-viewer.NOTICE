@@ -1,0 +1,7 @@
+This product bundles the draw.io (diagrams.net) JavaScript viewer,
+Copyright (c) JGraph Ltd, licensed under the Apache License, Version 2.0.
+
+    https://github.com/jgraph/drawio
+    https://www.apache.org/licenses/LICENSE-2.0
+
+The bundle is embedded unmodified in generated HTML viewers.
