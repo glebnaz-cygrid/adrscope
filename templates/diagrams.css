@@ -63,6 +63,13 @@
     cursor: grabbing;
 }
 
+/* draw.io renders author-chosen colours picked for a white canvas, and its
+   viewer has no working dark mode, so this surface stays light in both themes.
+   Mermaid and Excalidraw have real dark themes and follow the viewer. */
+.diagram-frame[data-diagram="drawio"] .diagram-viewport {
+    background: #ffffff;
+}
+
 .diagram-stage {
     position: absolute;
     top: 0;

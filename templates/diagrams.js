@@ -282,7 +282,11 @@
                 data: {
                     elements: scene.elements || [],
                     files: scene.files || null,
-                    appState: scene.appState || {}
+                    // The canvas supplies its own themed surface, so the
+                    // scene's background would sit on it as a light slab.
+                    // config.canvasBackgroundColor is ignored by the exporter;
+                    // dropping the background rect is what actually works.
+                    appState: Object.assign({}, scene.appState, { exportBackground: false })
                 },
                 config: {
                     padding: 16,

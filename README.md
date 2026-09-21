@@ -371,6 +371,9 @@ Use `--diagrams none` to keep diagram blocks as plain code.
   `KEEP_FONTS=1 scripts/vendor-diagrams.sh` to restore them.
 - draw.io shapes from libraries that load stencils on demand (AWS, Azure, Cisco)
   are unavailable offline and fall back to plain rectangles.
+- draw.io canvases stay light in dark mode; the viewer has no dark rendering and
+  its diagrams carry colours chosen for a white canvas. Mermaid and Excalidraw
+  follow the viewer theme.
 - Diagram sources are trusted content, on the same footing as the rest of an
   ADR body.
 
